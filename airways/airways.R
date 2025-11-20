@@ -140,8 +140,13 @@ boxplot(log2(1+filteredCountsMat), las=2, cex.axis=0.5, cex=0.5,
 boxplot(log2(1+filteredCountsMatUQ), las=2, cex.axis=0.5, cex=0.5,
         ylab="log2(1+counts)")
 
+# Create an output directory
+save_dir <- "results/"
+dir.create(save_dir)
+
+
 # Output: table of prepared gene expression data (counts x samples)
-write.csv(filteredCountsMatUQ, file = "/Users/iggy/projects/reproducible-r-workshop/filteredCountsMatUQ.csv")
+write.csv(filteredCountsMatUQ, file = paste0(save_dir,format(Sys.time(), "%Y-%m-%dT%H-%M-%S"), "_","filteredCountsMatUQ.csv"))
 
 # Exploratory plots to view the amount of data collected in each sample:
 # Plot the depth of sequencing per sample
@@ -221,9 +226,10 @@ ggplot(volcano.plot.data.frame, aes(x=logFC, y=(-log10(adj.P.Val)))) +
 # (apply customisations from manual testing)
 ggplot(volcano.plot.data.frame, aes(x=logFC, y=(-log10(adj.P.Val)))) + 
   xlim(c(-8,8)) + ylim(c(0,4.5)) +
-  geom_point(size=1, alpha=0.4) + 
+  geom_point(size=1, aalpha=0.1) + 
   geom_text_repel(aes(label=label), max.overlaps = Inf, size=3, colour="blue", 
                   force = 5, min.segment.length = 0, segment.alpha = 0.2) +
   geom_hline(yintercept = -log10(0.05), alpha = 0.5, colour = "darkgreen", linetype = "dashed") + 
-  annotate("label", y=-log10(0.05), x=-7, label="adj.p=0.05", colour="darkgreen") +
+  annotate("label", y=-log10(0.05), x=-7, label="adj.p=0.05", size=3, colour="darkgreen") +
   theme_light()
+
